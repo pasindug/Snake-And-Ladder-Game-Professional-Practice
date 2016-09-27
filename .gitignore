@@ -1,0 +1,152 @@
+import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.lang.*;
+
+class calcuation{
+
+		//The 5 accounts of the player 1
+	public static int ast1=0,liab1=2,eqtyc1=3,expn1=4,incm1=0;
+	//The 5 accounts of the player 2
+	public static int ast2=0,liab2=2,eqtyc2=3,expn2=4,incm2=0;
+
+
+	//2D Array that stores the calculated values of each square [][0]=ast [][1]=lib [][2]=eqtyc [][3]=expn [][4]=incm
+	public static int[][] calc=new int[64][5];
+	//Array that stores the Strings of the questions
+	public static String[] ques=new String[64];
+
+	public static void showResults(int num){
+			int nums =num;
+			if (nums==1){
+				System.out.println("=====Player 1 Wins=====");
+				System.out.println("Player 1 Profile\n"+"Assests = "+ast1+"\nLiabilities = "+liab1+"\nEquity and Captal = "+eqtyc1+"\nExpences = "+expn1+"\nIncome = "+incm1);
+				System.out.println("Player 2 Profile\n"+"Assests = "+ast2+"\nLiabilities = "+liab2+"\nEquity and Captal = "+eqtyc2+"\nExpences = "+expn2+"\nIncome = "+incm2);
+				System.exit(0);
+			}
+			else{
+				System.out.println("=====Player 2 Wins=====");
+				System.out.println("Player 2 Profile\n"+"Assests = "+ast2+"\nLiabilities = "+liab2+"\nEquity and Captal = "+eqtyc2+"\nExpences = "+expn2+"\nIncome = "+incm2);
+				System.out.println("Player 1 Profile\n"+"Assests = "+ast1+"\nLiabilities = "+liab1+"\nEquity and Captal = "+eqtyc1+"\nExpences = "+expn1+"\nIncome = "+incm1);
+				System.exit(0);
+			}
+			
+
+	}
+
+	public static void main(String[] args) throws Exception {
+
+
+
+	//value of the dice at particular instance
+	int dice=0;
+	//Values of the square num1 for Player 1 num2 for player 2
+	int num1=0,num2=0;
+	//QFile Reads the Question File
+	FileReader Qfile= new FileReader("F:/Documents/Academics/UCSC/3rd Year'/Prof Prac/Questions.txt");
+	//QReader Buffers the question File
+	BufferedReader Qreader=new BufferedReader(Qfile);
+	//AFile Reads the answer file
+	FileReader Afile= new FileReader("F:/Documents/Academics/UCSC/3rd Year'/Prof Prac/Answers.txt");
+	//Areader buffers the answer file
+	//BufferedReader Areader= new BufferedReader(Afile);
+	//Scans the answer file and nextInt() gets the values as integers
+	Scanner ascn = new Scanner(Afile);
+	//Scans the General Keyboard inputs
+	Scanner generalScn=new Scanner(System.in);
+	// Assigns Questions to the array
+	for (int x=0;x<=63;x++ ) {
+		ques[x]=Qreader.readLine();
+		//System.out.println(ques[x]);
+	}
+	//Assigns theanswers to the array
+	for (int y=0;y<=63 ;y++ ) {
+		for (int z=0;z<=4 ;z++ ) {
+			//calc[y][z]=Areader.readLine();
+			calc[y][z]=ascn.nextInt();
+			//System.out.println(calc[y][z]);
+			
+		}
+		
+	}
+
+
+
+	//the do while checks whetehr the dice number is 1 or 6 and if so gives a player another chance. Also it checks whether the player has reached the 64th square
+	do{
+		//Player 1
+		System.out.println("Player 1: Enter the number");
+		dice=generalScn.nextInt();
+		//Updates the number of the square by adding the number
+		num1=num1+dice;
+		if(num1>=64){
+			num1=64;
+			showResults(1);
+		}
+		else{
+			//Prints the question
+			System.out.println(ques[num1-1]);
+			//Updates the sccounts with the answer for the relevant question	
+			for(int z=0;z<=4;z++){
+				switch(z){
+					case 0:
+						System.out.println(ast1);
+						ast1=ast1+calc[num1-1][z];
+						System.out.println(ast1);
+						break;
+					case 1:
+						liab1=liab1+calc[num1-1][z];
+						break;
+					case 2:
+						eqtyc1=eqtyc1+calc[num1-1][z];
+						break;
+					case 3:
+						expn1=expn1+calc[num1-1][z];
+						break;
+					case 4:
+						incm1=incm1+calc[num1-1][z];
+						break;
+				}
+			}
+		}
+	} while ((dice==1||dice==6)&&num1<64);
+
+	//the do while checks whetehr the dice number is 1 or 6 and if so gives a player another chance. Also it checks whether the player has reached the 64th square
+	do{
+		//Player 2
+		System.out.println("Player 2: Enter the number");
+		dice=generalScn.nextInt();
+		//Updates the number of the square by adding the number
+		num2=num2+dice;
+		if (num2>=64){
+			num2=64;
+			
+		}
+		//Prints the question
+		System.out.println(ques[num2-1]);
+		//Updates the sccounts with the answer for the relevant question	
+		for(int z=0;z<=4;z++){
+			switch(z){
+				case '0':
+					ast2=ast2+calc[num2-1][z];
+					break;
+				case '1':
+					liab2=liab2+calc[num2-1][z];
+					break;
+				case '2':
+					eqtyc2=eqtyc2+calc[num2-1][z];
+					break;
+				case '3':
+					expn2=expn2+calc[num2-1][z];
+					break;
+				case '4':
+					incm2=incm2+calc[num2-1][z];
+					break;
+			}
+		}
+	} while ((dice==1||dice==6)&&num2<64);
+		
+
+
+	}
+}
